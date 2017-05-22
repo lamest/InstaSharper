@@ -53,7 +53,7 @@ namespace InstaSharper.API
         /// <returns>
         ///     <see cref="InstaMediaList" />
         /// </returns>
-        IResult<InstaMediaList> GetUserMedia(string username, int maxPages = 0);
+        IResult<InstaMediaList> GetUserMedia(string username, int maxPages = 0, Pagination pagination = null);
 
         /// <summary>
         ///     Get media by its id (code)
@@ -89,7 +89,7 @@ namespace InstaSharper.API
         /// <returns>
         ///     <see cref="InstaFeed" />
         /// </returns>
-        IResult<InstaFeed> GetTagFeed(string tag, int maxPages = 0);
+        IResult<InstaFeed> GetTagFeed(string tag, int maxPages = 0, Pagination pagination = null);
 
         /// <summary>
         ///     Get followers list by username
@@ -325,7 +325,7 @@ namespace InstaSharper.API
         /// <returns>
         ///     <see cref="InstaMediaList" />
         /// </returns>
-        Task<IResult<InstaMediaList>> GetUserMediaAsync(string username, int maxPages = 0);
+        Task<IResult<InstaMediaList>> GetUserMediaAsync(string username, int maxPages = 0, Pagination pagination = null);
 
         /// <summary>
         ///     Get media by its id asynchronously
@@ -361,7 +361,7 @@ namespace InstaSharper.API
         /// <returns>
         ///     <see cref="InstaFeed" />
         /// </returns>
-        Task<IResult<InstaFeed>> GetTagFeedAsync(string tag, int maxPages = 0);
+        Task<IResult<InstaFeed>> GetTagFeedAsync(string tag, int maxPages = 0, Pagination pagination = null);
 
         /// <summary>
         ///     Get followers list by username asynchronously
