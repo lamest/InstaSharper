@@ -445,15 +445,15 @@ namespace InstaSharper.API
                     pagination = new Pagination(nextId);
                     mediaList.Pagination = pagination;
                 }
+                else
+                {
+                    return Result.Fail(GetBadStatusFromJsonString(json).Message, (InstaMediaList)null);
+                }
             }
             else
             {
                 moreAvailable = true;
                 nextId = pagination.NextId;
-            }
-            if (!moreAvailable)
-            {
-                return Result.Fail(GetBadStatusFromJsonString(json).Message, (InstaMediaList)null);
             }
             while (moreAvailable && mediaList.Pages < maxPages)
             {
@@ -613,15 +613,15 @@ namespace InstaSharper.API
                     pagination = new Pagination(nextId);
                     tagFeed.Pagination = pagination;
                 }
+                else
+                {
+                    return Result.Fail(GetBadStatusFromJsonString(json).Message, (InstaFeed)null);
+                }
             }
             else
             {
                 moreAvailable = true;
                 nextId = pagination.NextId;
-            }
-            if (!moreAvailable)
-            {
-                return Result.Fail(GetBadStatusFromJsonString(json).Message, (InstaFeed)null);
             }
             while (moreAvailable && tagFeed.Pages < maxPages)
             {
