@@ -340,5 +340,19 @@ namespace InstaSharper.Helpers
                 throw new Exception("Can't create URI for deleting media");
             return instaUri;
         }
+
+        public static Uri GetSearchTagsUri(string searchKey)
+        {
+            if (!Uri.TryCreate(BaseInstagramUri, string.Format(InstaApiConstants.SEARCH_TAGS,searchKey), out var instaUri))
+                throw new Exception("Can't create URI for deleting media");
+            return instaUri;
+        }
+
+        public static Uri GetSearchUsersUri(string searchKey)
+        {
+            if (!Uri.TryCreate(BaseInstagramUri, string.Format(InstaApiConstants.SEARCH_USERS_GENERAL, searchKey), out var instaUri))
+                throw new Exception("Can't create URI for deleting media");
+            return instaUri;
+        }
     }
 }

@@ -52,6 +52,9 @@
         public const string GET_USER_STORY = API_SUFFIX + "/v1/feed/user/{0}/reel_media/";
         public const string STORY_CONFIGURE = API_SUFFIX + "/v1/media/configure_to_reel/";
 
+        public const string SEARCH_TAGS = API_SUFFIX + "/v1/tags/search/?q={0}";
+        public const string SEARCH_USERS_GENERAL = API_SUFFIX + "/v1/users/search/?q={0}";
+
         public const string LOCATION_SEARCH = API_SUFFIX + "/v1/location_search/"; /* To implement */
 
 
