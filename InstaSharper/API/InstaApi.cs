@@ -49,6 +49,15 @@ namespace InstaSharper.API
 
         #region sync part
 
+        public IResult<IList<InstaTag>> SearchTags(string searchKey)
+        {
+            return SearchTagsAsync(searchKey).Result;
+        }
+
+        public IResult<IList<InstaUser>> SearchUsers(string searchKey)
+        {
+            return SearchUsersAsync(searchKey).Result;
+        }
         public IResult<bool> Login()
         {
             return LoginAsync().Result;
@@ -380,41 +389,6 @@ namespace InstaSharper.API
             }
         }
 
-        //public async Task<IResult<InstaMediaList>> GetUserMediaAsync(string username, int maxPages = 0, Pagination pagination = null)
-        //{
-        //    ValidateUser();
-        //    if (maxPages == 0) maxPages = int.MaxValue;
-        //    var user = GetUser(username).Value;
-        //    var instaUri = UriCreator.GetUserMediaListUri(user.Pk);
-        //    var request = HttpHelper.GetDefaultRequest(HttpMethod.Get, instaUri, _deviceInfo);
-        //    var response = await _httpClient.SendAsync(request);
-        //    var json = await response.Content.ReadAsStringAsync();
-        //    if (response.StatusCode == HttpStatusCode.OK)
-        //    {
-        //        var mediaResponse = JsonConvert.DeserializeObject<InstaMediaListResponse>(json,
-        //            new InstaMediaListDataConverter());
-        //        var moreAvailable = mediaResponse.MoreAvailable;
-        //        var converter = ConvertersFabric.GetMediaListConverter(mediaResponse);
-        //        var mediaList = converter.Convert();
-        //        mediaList.Pages++;
-        //        var nextId = mediaResponse.NextMaxId;
-        //        while (moreAvailable && mediaList.Pages < maxPages)
-        //        {
-        //            instaUri = UriCreator.GetMediaListWithMaxIdUri(user.Pk, nextId);
-        //            var nextMedia = await GetUserMediaListWithMaxIdAsync(instaUri);
-        //            mediaList.Pages++;
-        //            if (!nextMedia.Succeeded)
-        //                Result.Success($"Not all pages were downloaded: {nextMedia.Info.Message}", mediaList);
-        //            nextId = nextMedia.Value.NextMaxId;
-        //            moreAvailable = nextMedia.Value.MoreAvailable;
-        //            converter = ConvertersFabric.GetMediaListConverter(nextMedia.Value);
-        //            mediaList.AddRange(converter.Convert());
-        //        }
-        //        return Result.Success(mediaList);
-        //    }
-        //    return Result.Fail(GetBadStatusFromJsonString(json).Message, (InstaMediaList) null);
-        //}
-
         public async Task<IResult<InstaMediaList>> GetUserMediaAsync(string username, int maxPages = 0, Pagination pagination = null)
         {
             ValidateUser();
@@ -522,6 +496,42 @@ namespace InstaSharper.API
             return Result.Fail(GetBadStatusFromJsonString(json).Message, (InstaUser) null);
         }
 
+        public async Task<IResult<IList<InstaTag>>> SearchTagsAsync(string searchKey)
+        {
+            ValidateUser();
+            ValidateLoggedIn();
+            var tagsSearchUri = UriCreator.GetSearchTagsUri(searchKey);
+            var request = HttpHelper.GetDefaultRequest(HttpMethod.Get, tagsSearchUri, _deviceInfo);
+            var response = await _httpClient.SendAsync(request);
+            var json = await response.Content.ReadAsStringAsync();
+            
+            if (response.IsSuccessStatusCode)
+            {
+                    var result = JObject.Parse(json)["results"].Select(x=>x.ToString()).Select(JsonConvert.DeserializeObject<InstaTag>).ToList();                    
+                    return Result.Success(result);                
+            }
+            return Result.Fail<IList<InstaTag>>(json);
+
+        }
+
+        public async Task<IResult<IList<InstaUser>>> SearchUsersAsync(string searchKey)
+        {
+            ValidateUser();
+            ValidateLoggedIn();
+            var tagsSearchUri = UriCreator.GetSearchUsersUri(searchKey);
+            var request = HttpHelper.GetDefaultRequest(HttpMethod.Get, tagsSearchUri, _deviceInfo);
+            var response = await _httpClient.SendAsync(request);
+            var json = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                var userInfo = JsonConvert.DeserializeObject<InstaSearchUserResponse>(json);
+
+                return Result.Success(userInfo.Users.Select(user=>ConvertersFabric.GetUserConverter(user).Convert()).ToList());
+            }
+            return Result.Fail<IList<InstaUser>>(json);
+
+        }
 
         public async Task<IResult<InstaUser>> GetCurrentUserAsync()
         {
@@ -547,42 +557,7 @@ namespace InstaSharper.API
                 return Result.Success(userConverted);
             }
             return Result.Fail(GetBadStatusFromJsonString(json).Message, (InstaUser) null);
-        }
-
-        //public async Task<IResult<InstaFeed>> GetTagFeedAsync(string tag, int maxPages = 0, Pagination pagination = null)
-        //{
-        //    ValidateUser();
-        //    ValidateLoggedIn();
-        //    if (maxPages == 0) maxPages = int.MaxValue;
-        //    var userFeedUri = UriCreator.GetTagFeedUri(tag);
-        //    var request = HttpHelper.GetDefaultRequest(HttpMethod.Get, userFeedUri, _deviceInfo);
-        //    var response = await _httpClient.SendAsync(request);
-        //    var json = await response.Content.ReadAsStringAsync();
-        //    if (response.StatusCode == HttpStatusCode.OK)
-        //    {
-        //        var feedResponse = JsonConvert.DeserializeObject<InstaMediaListResponse>(json,
-        //            new InstaMediaListDataConverter());
-        //        var converter = ConvertersFabric.GetMediaListConverter(feedResponse);
-        //        var tagFeed = new InstaFeed();
-        //        tagFeed.Medias.AddRange(converter.Convert());
-        //        tagFeed.Pages++;
-        //        var nextId = feedResponse.NextMaxId;
-        //        var moreAvailable = feedResponse.MoreAvailable;
-        //        while (moreAvailable && tagFeed.Pages < maxPages)
-        //        {
-        //            var nextMedia = await GetTagFeedWithMaxIdAsync(tag, nextId);
-        //            tagFeed.Pages++;
-        //            if (!nextMedia.Succeeded)
-        //                return Result.Success($"Not all pages was downloaded: {nextMedia.Info.Message}", tagFeed);
-        //            nextId = nextMedia.Value.NextMaxId;
-        //            moreAvailable = nextMedia.Value.MoreAvailable;
-        //            converter = ConvertersFabric.GetMediaListConverter(nextMedia.Value);
-        //            tagFeed.Medias.AddRange(converter.Convert());
-        //        }
-        //        return Result.Success(tagFeed);
-        //    }
-        //    return Result.Fail(GetBadStatusFromJsonString(json).Message, (InstaFeed) null);
-        //}
+        } 
 
         public async Task<IResult<InstaFeed>> GetTagFeedAsync(string tag, int maxPages = 0,
             Pagination pagination = null)

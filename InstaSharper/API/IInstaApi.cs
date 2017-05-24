@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using InstaSharper.Classes;
 using InstaSharper.Classes.Models;
 
@@ -16,7 +17,8 @@ namespace InstaSharper.API
         #endregion
 
         #region Sync Members
-
+        IResult<IList<InstaUser>> SearchUsers(string searchKey);
+        IResult<IList<InstaTag>> SearchTags(string searchKey);
         /// <summary>
         ///     Login using given credentials
         /// </summary>
@@ -288,7 +290,8 @@ namespace InstaSharper.API
         #endregion
 
         #region Async Members
-
+        Task<IResult<IList<InstaUser>>> SearchUsersAsync(string searchKey);
+        Task<IResult<IList<InstaTag>>> SearchTagsAsync(string searchKey);
         /// <summary>
         ///     Login using given credentials asynchronously
         /// </summary>
