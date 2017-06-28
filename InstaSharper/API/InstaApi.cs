@@ -79,7 +79,7 @@ namespace InstaSharper.API
                 {
                     var loginInfo =
                         JsonConvert.DeserializeObject<InstaLoginResponse>(json);
-                    IsUserAuthenticated = loginInfo.User != null && loginInfo.User.UserName == _user.UserName;
+                    IsUserAuthenticated = loginInfo.User != null; //&& loginInfo.User.UserName == _user.UserName;
                     var converter = ConvertersFabric.GetUserConverter(loginInfo.User);
                     _user.LoggedInUder = converter.Convert();
                     _user.RankToken = $"{_user.LoggedInUder.Pk}_{_requestMessage.phone_id}";
