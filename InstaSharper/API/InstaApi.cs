@@ -436,9 +436,9 @@ namespace InstaSharper.API
                 mediaList.Pages++;
                 if (!nextMedia.Succeeded)
                     Result.Success($"Not all pages were downloaded: {nextMedia.Info.Message}", mediaList);
-                nextId = nextMedia.Value.NextMaxId;
-                mediaList.Pagination = new Pagination(nextId);
+                nextId = nextMedia.Value.NextMaxId;             
                 moreAvailable = nextMedia.Value.MoreAvailable;
+                mediaList.Pagination = moreAvailable ? new Pagination(nextId) : new Pagination(string.Empty);
                 converter = ConvertersFabric.GetMediaListConverter(nextMedia.Value);
                 mediaList.AddRange(converter.Convert());
             }
@@ -605,8 +605,9 @@ namespace InstaSharper.API
                 if (!nextMedia.Succeeded)
                     return Result.Success($"Not all pages was downloaded: {nextMedia.Info.Message}", tagFeed);
                 nextId = nextMedia.Value.NextMaxId;
-                tagFeed.Pagination = new Pagination(nextId);
+                
                 moreAvailable = nextMedia.Value.MoreAvailable;
+                tagFeed.Pagination = moreAvailable ? new Pagination(nextId): new Pagination(string.Empty);
                 converter = ConvertersFabric.GetMediaListConverter(nextMedia.Value);
                 tagFeed.Medias.AddRange(converter.Convert());
             }
