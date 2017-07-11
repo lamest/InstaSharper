@@ -32,7 +32,10 @@ namespace InstaSharper.Converters
                 Width = SourceObject.Width,
                 HasAudio = SourceObject.HasAudio,
             };
-            int.TryParse(SourceObject.ViewCount.ToString(CultureInfo.InvariantCulture), out media.ViewCount);
+            if (int.TryParse(SourceObject.ViewCount.ToString(CultureInfo.InvariantCulture), out int viewCount))
+            {
+                media.ViewCount = viewCount;
+            }
 
             if (SourceObject.CarouselMedia != null)
                 media.Carousel = ConvertersFabric.GetCarouselConverter(SourceObject.CarouselMedia).Convert();
