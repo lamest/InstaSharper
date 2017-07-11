@@ -27,7 +27,7 @@ namespace InstaSharper.Helpers
         public static DateTime UnixTimestampMilisecondsToDateTime(string unixTime)
         {
             var time = (long) Convert.ToDouble(unixTime) / 1000000;
-            return time.FromUnixTimeSeconds();
+            return time.FromUnixTimeMiliSeconds();
         }
 
         public static DateTime FromUnixTimeSeconds(this long unixTime)
