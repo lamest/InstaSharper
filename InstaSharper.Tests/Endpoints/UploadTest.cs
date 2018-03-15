@@ -20,13 +20,41 @@ namespace InstaSharper.Tests.Endpoints
         {
             Assert.True(_authInfo.ApiInstance.IsUserAuthenticated);
 
-            var mediaImage = new MediaImage
+            var mediaImage = new InstaImage
             {
                 Height = 1080,
                 Width = 1080,
                 URI = new Uri(@"D:\Dropbox\Public\Inspire.jpg", UriKind.Absolute).LocalPath
             };
             var result = await _authInfo.ApiInstance.UploadPhotoAsync(mediaImage, "inspire");
+
+            //assert
+            Assert.True(result.Succeeded);
+            Assert.NotNull(result.Value);
+        }
+
+        [Fact]
+        public async void UploadImagesAsAlbumTest()
+        {
+            Assert.True(_authInfo.ApiInstance.IsUserAuthenticated);
+
+            var mediaImage = new InstaImage
+            {
+                Height = 512,
+                Width = 512,
+                URI = new Uri(@"C:\tmp\1.jpg", UriKind.Absolute).LocalPath
+            };
+
+            var mediaImage1 = new InstaImage
+            {
+                Height = 512,
+                Width = 512,
+                URI = new Uri(@"C:\tmp\2.jpg", UriKind.Absolute).LocalPath
+            };
+
+            var result =
+                await _authInfo.ApiInstance.UploadPhotosAlbumAsync(new[] {mediaImage, mediaImage1},
+                    "Collection of design");
 
             //assert
             Assert.True(result.Succeeded);

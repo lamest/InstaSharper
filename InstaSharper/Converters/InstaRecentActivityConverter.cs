@@ -38,8 +38,10 @@ namespace InstaSharper.Converters
                 };
                 if (SourceObject.Args.InlineFollow.UserInfo != null)
                     activityStory.InlineFollow.User =
-                        ConvertersFabric.GetUserShortConverter(SourceObject.Args.InlineFollow.UserInfo).Convert();
+                        ConvertersFabric.Instance.GetUserShortConverter(SourceObject.Args.InlineFollow.UserInfo)
+                            .Convert();
             }
+
             return activityStory;
         }
     }

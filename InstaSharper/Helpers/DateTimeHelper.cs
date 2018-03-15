@@ -21,13 +21,13 @@ namespace InstaSharper.Helpers
         public static DateTime UnixTimestampToDateTime(string unixTime)
         {
             var time = (long) Convert.ToDouble(unixTime);
-            return time.FromUnixTimeSeconds();
+            return time.FromUnixTimeMiliSeconds();
         }
 
         public static DateTime UnixTimestampMilisecondsToDateTime(string unixTime)
         {
             var time = (long) Convert.ToDouble(unixTime) / 1000000;
-            return time.FromUnixTimeMiliSeconds();
+            return time.FromUnixTimeSeconds();
         }
 
         public static DateTime FromUnixTimeSeconds(this long unixTime)
@@ -64,6 +64,12 @@ namespace InstaSharper.Helpers
             {
                 return 0;
             }
+        }
+
+        public static long GetUnixTimestampSeconds()
+        {
+            var timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
+            return (long) timeSpan.TotalSeconds;
         }
     }
 }

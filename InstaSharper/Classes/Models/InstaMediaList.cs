@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace InstaSharper.Classes.Models
 {
-    public class InstaMediaList : List<InstaMedia>,IPaginationData
+    public class InstaMediaList : List<InstaMedia>, IInstaBaseList
     {
         public int Pages { get; set; } = 0;
         public int PageSize { get; set; } = 0;
-
-        public Pagination Pagination { get; internal set; }
+        public string NextId { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace InstaSharper.Converters.Json
 {
-    public class InstaRecentActivityConverter : JsonConverter
+    internal class InstaRecentActivityConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
         {
@@ -31,6 +31,7 @@ namespace InstaSharper.Converters.Json
                 recentActivity.Stories.AddRange(oldStories);
                 recentActivity.IsOwnActivity = true;
             }
+
             return recentActivity;
         }
 

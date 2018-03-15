@@ -24,6 +24,19 @@ namespace InstaSharper.Tests.Endpoints
             Assert.NotNull(thread);
         }
 
+        [Theory]
+        [InlineData("196754384")]
+        public async void SendDirectMessageTest(string user)
+        {
+            Assert.True(_authInfo.ApiInstance.IsUserAuthenticated);
+            var text = "this is test";
+            var result =
+                await _authInfo.ApiInstance.SendDirectMessage(user, string.Empty, text);
+            Assert.True(result.Succeeded);
+            Assert.NotNull(result.Value);
+            Assert.True(result.Value.Count > 0);
+        }
+
         [Fact]
         public async void GetDirectInboxTest()
         {
@@ -40,6 +53,7 @@ namespace InstaSharper.Tests.Endpoints
             Assert.True(_authInfo.ApiInstance.IsUserAuthenticated);
             var result = await _authInfo.ApiInstance.GetRankedRecipientsAsync();
             Assert.True(result.Succeeded);
+            Assert.NotNull(result.Value);
         }
 
         [Fact]
@@ -48,6 +62,7 @@ namespace InstaSharper.Tests.Endpoints
             Assert.True(_authInfo.ApiInstance.IsUserAuthenticated);
             var result = await _authInfo.ApiInstance.GetRecentRecipientsAsync();
             Assert.True(result.Succeeded);
+            Assert.NotNull(result.Value);
         }
     }
 }

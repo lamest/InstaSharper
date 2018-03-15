@@ -16,21 +16,21 @@ namespace InstaSharper.Tests.Endpoints
         private readonly AuthenticatedTestFixture _authInfo;
 
         [Theory]
-        [InlineData(1129166614)]
+        [InlineData(267685466)]
         private async void GetUserStoryTest(long userId)
         {
             Assert.True(_authInfo.ApiInstance.IsUserAuthenticated);
             var result = await _authInfo.ApiInstance.GetUserStoryAsync(userId);
-            var stories = result.Value;
+            var story = result.Value;
             Assert.True(result.Succeeded);
-            Assert.NotNull(stories);
+            Assert.NotNull(story);
         }
 
         [Fact]
-        private async void GetStoryTrayTest()
+        private async void GetStoryFeedTest()
         {
             Assert.True(_authInfo.ApiInstance.IsUserAuthenticated);
-            var result = await _authInfo.ApiInstance.GetStoryTrayAsync();
+            var result = await _authInfo.ApiInstance.GetStoryFeedAsync();
             var stories = result.Value;
             Assert.True(result.Succeeded);
             Assert.NotNull(stories);
@@ -41,7 +41,7 @@ namespace InstaSharper.Tests.Endpoints
         {
             Assert.True(_authInfo.ApiInstance.IsUserAuthenticated);
 
-            var mediaImage = new MediaImage
+            var mediaImage = new InstaImage
             {
                 Height = 1200,
                 Width = 640,

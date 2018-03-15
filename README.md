@@ -1,35 +1,49 @@
 # InstagramApi [InstaSharper]
 Tokenless, butthurtless private API for Instagram. Get account information, media, explore tags and user feed without any applications and other crap.
 
+## Development of this project postponed
+
+### Before posting new issues: [Demo samples](https://github.com/a-legotin/InstaSharper/tree/develop/InstaSharper.Examples), [Tests project](https://github.com/a-legotin/InstaSharper/tree/develop/InstaSharper.Tests/Endpoints) and [Wiki page](https://github.com/a-legotin/InstaSharper/wiki/How-to-use-library-features)
+
 Note that: there is a simple [Instagram API](https://github.com/a-legotin/InstagramAPI-Web) based on web-version of Instagram. This repository based on Instagram API for mobile devices.
 
 [![Build status](https://ci.appveyor.com/api/projects/status/6os0fhi1awbplbka?svg=true)](https://ci.appveyor.com/project/a-legotin/instasharper)
-[![Build Status](https://travis-ci.org/a-legotin/InstaSharper.svg?branch=master)](https://travis-ci.org/a-legotin/InstaSharper)
+[![Build status](https://travis-ci.org/a-legotin/InstaSharper.svg?branch=master)](https://travis-ci.org/a-legotin/InstaSharper)
+[![NuGet](https://img.shields.io/nuget/v/InstaSharper.svg)](https://www.nuget.org/packages/InstaSharper/)
+[![MyGet](https://img.shields.io/myget/a-legotin/v/instasharper-develop.svg)](https://www.myget.org/feed/Details/instasharper-develop)
 [![Telegram chat](https://img.shields.io/badge/telegram-channel-blue.svg)](https://t.me/instasharper)
 [![GitHub stars](https://img.shields.io/github/stars/a-legotin/InstaSharper.svg)](https://github.com/a-legotin/InstaSharper/stargazers)
 
-#### Current version: 1.2.5 [Stable], 1.2.6 [Under development]
+#### Current version: 1.4.0 [Stable], 1.5.0 [Under development]
 
 ## Overview
-This project intends to provide all the features available in the Instagram API up to v10.3.2. It is being developed in C# for .NET Framework 4.5.2 and .NET Standart 1.6
+This project intends to provide all the features available in the Instagram API up to 12.0.0.7.91. It is being developed in C# for .NET Framework 4.5.2 and .NET Standart 2.0
+
+#### This repository is provided for reference purposes only.
 
 * Please note that this project is still in design and development phase; the libraries may suffer major changes even at the interface level, so don't rely (yet) in this software for production uses. *
+
+## Donations are welcome
+Support developer with any tip! 
+
+![btc](http://codegarage.ru/assets/images/if__bitcoin_1156710.png) 144BkLkexhUnMsmiVMS6ZvSNeYjBnKMmRG
+
+![yandex money](http://codegarage.ru/assets/images/yandex_dengi_product_icon_rgb.png) [Yandex.Money](https://money.yandex.ru/to/41001486165128)
+
+![donationalerts](http://codegarage.ru/assets/images/favicon-32x32.png) [Donation Alerts](http://www.donationalerts.ru/r/instasharper)
+
+*Any funds received are not for goods or services, but are monetary tips to help support author. I am thankful for your attention and while I do appreciate if you do decide to tip, it is not required. Before tipping, please consider that your tips are non-refundable.
 
 ## Cross-platform by design
 Build with dotnet core. Can be used on Mac, Linux, Windows.
 
 ## Easy to install
 Use library as dll, reference from [nuget](https://www.nuget.org/packages/InstaSharper/) or clone source code.
+Pre-release version available at [myget feed](https://www.myget.org/feed/Details/instasharper-develop) together with [symbols](https://www.myget.org/F/instasharper-develop/symbols/)
 
-##Features
+## Features
 
 Currently the library supports following coverage of the following Instagram APIs:
-
-***
-
-- [x] - ready to use in latest stable version
-- [ ] - under development
-* - will be implemented at some point
 
 ***
 
@@ -45,13 +59,14 @@ Currently the library supports following coverage of the following Instagram API
 - [x] Get current user media
 - [x] Get followers list
 - [x] Get followers list for currently logged in user
+- [x] Get following list
+- [x] Get recent following activity
 - [x] Get user tags by username
 - [x] Get direct mailbox
 - [x] Get recent recipients
 - [x] Get ranked recipients
 - [x] Get inbox thread
 - [x] Get recent activity
-- [x] Get recent following activity
 - [x] Like media
 - [x] Unlike media
 - [x] Follow user
@@ -65,19 +80,11 @@ Currently the library supports following coverage of the following Instagram API
 - [x] Delete media (photo/video)
 - [x] Upload story (photo)
 - [x] Change password
-- [x] Upload video
+- [x] Send direct message
+- [x] Search location
+- [x] Get location feed
+- [x] Collection create/get by id/get all/add items
 
-
-* Get user list autocomplete
-* Register new user
-* Get megaphone log
-* Explore feed
-* Get full account backup
-* Send direct message
-* Edit media
-* Share media
-
-###### for more details please check [Project roadmap](https://github.com/a-legotin/InstaSharper/wiki/Project-roadmap/_edit)
 
 ## Easy to use
 #### Use builder to get Insta API instance:
@@ -129,6 +136,16 @@ IResult<bool> postResult = await apiInstance.CommentMediaAsync("1234567891234567
 
 #### [Wiki](https://github.com/a-legotin/InstagramAPI/wiki/)
 
+## Special thanks
+
+[ADeltaX](https://github.com/ADeltaX) for contribution
+
+[vitalragaz](https://github.com/vitalragaz) for contribution
+
+[n0ise9914](https://github.com/n0ise9914) for contribution
+
+[mgp25](https://github.com/mgp25) and his [php wrapper](https://github.com/mgp25/Instagram-API/)
+
 # License
 
 MIT
@@ -143,3 +160,4 @@ MIT
 ## Legal
 
 This code is in no way affiliated with, authorized, maintained, sponsored or endorsed by Instagram or any of its affiliates or subsidiaries. This is an independent and unofficial API wrapper.
+#### Code provided for reference purposes only.

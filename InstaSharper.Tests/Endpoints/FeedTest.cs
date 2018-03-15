@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using InstaSharper.Classes;
 using InstaSharper.Tests.Classes;
 using Xunit;
 
@@ -20,7 +21,7 @@ namespace InstaSharper.Tests.Endpoints
         {
             Assert.True(_authInfo.ApiInstance.IsUserAuthenticated);
 
-            var result = await _authInfo.ApiInstance.GetTagFeedAsync(tag, 10);
+            var result = await _authInfo.ApiInstance.GetTagFeedAsync(tag, PaginationParameters.MaxPagesToLoad(10));
             var tagFeed = result.Value;
             var anyMediaDuplicate = tagFeed.Medias.GroupBy(x => x.Code).Any(g => g.Count() > 1);
             var anyStoryDuplicate = tagFeed.Stories.GroupBy(x => x.Id).Any(g => g.Count() > 1);
@@ -38,7 +39,7 @@ namespace InstaSharper.Tests.Endpoints
         {
             Assert.True(_authInfo.ApiInstance.IsUserAuthenticated);
 
-            var result = await _authInfo.ApiInstance.GetUserTagsAsync(username, 5);
+            var result = await _authInfo.ApiInstance.GetUserTagsAsync(username, PaginationParameters.MaxPagesToLoad(5));
             var tagFeed = result.Value;
             var anyMediaDuplicate = tagFeed.GroupBy(x => x.Code).Any(g => g.Count() > 1);
             //assert
@@ -47,12 +48,40 @@ namespace InstaSharper.Tests.Endpoints
             Assert.False(anyMediaDuplicate);
         }
 
+        [Theory]
+        [InlineData(267685466)]
+        [InlineData(466579064)]
+        public async void GetUserReelFeedTest(long userPk)
+        {
+            Assert.True(_authInfo.ApiInstance.IsUserAuthenticated);
+
+            var result = await _authInfo.ApiInstance.GetUserStoryFeedAsync(userPk);
+            var feed = result.Value;
+            //assert
+            Assert.True(result.Succeeded);
+            Assert.NotNull(feed);
+        }
+
+        [Fact]
+        public async void ExploreTest()
+        {
+            Assert.True(_authInfo.ApiInstance.IsUserAuthenticated);
+            var result = await _authInfo.ApiInstance.GetExploreFeedAsync(PaginationParameters.MaxPagesToLoad(5));
+            var exploreGeed = result.Value;
+            var anyMediaDuplicate = exploreGeed.Medias.GroupBy(x => x.Code).Any(g => g.Count() > 1);
+            //assert
+            Assert.NotNull(exploreGeed);
+            Assert.True(result.Succeeded);
+            Assert.False(anyMediaDuplicate);
+        }
+
         [Fact]
         public async void GetFollowingRecentActivityFeedTest()
         {
             Assert.True(_authInfo.ApiInstance.IsUserAuthenticated);
 
-            var getFeedResult = await _authInfo.ApiInstance.GetFollowingRecentActivityAsync(5);
+            var getFeedResult =
+                await _authInfo.ApiInstance.GetFollowingRecentActivityAsync(PaginationParameters.MaxPagesToLoad(5));
             var folloowingRecentFeed = getFeedResult.Value;
 
             //assert
@@ -66,7 +95,8 @@ namespace InstaSharper.Tests.Endpoints
         {
             Assert.True(_authInfo.ApiInstance.IsUserAuthenticated);
 
-            var getFeedResult = await _authInfo.ApiInstance.GetRecentActivityAsync(5);
+            var getFeedResult =
+                await _authInfo.ApiInstance.GetRecentActivityAsync(PaginationParameters.MaxPagesToLoad(5));
             var ownRecentFeed = getFeedResult.Value;
             //assert
             Assert.True(getFeedResult.Succeeded);
@@ -79,7 +109,8 @@ namespace InstaSharper.Tests.Endpoints
         {
             Assert.True(_authInfo.ApiInstance.IsUserAuthenticated);
 
-            var getFeedResult = await _authInfo.ApiInstance.GetUserTimelineFeedAsync(5);
+            var getFeedResult =
+                await _authInfo.ApiInstance.GetUserTimelineFeedAsync(PaginationParameters.MaxPagesToLoad(3));
             var feed = getFeedResult.Value;
             var anyDuplicate = feed.Medias.GroupBy(x => x.Code).Any(g => g.Count() > 1);
             var anyStoryDuplicate = feed.Stories.GroupBy(x => x.Id).Any(g => g.Count() > 1);
@@ -96,7 +127,7 @@ namespace InstaSharper.Tests.Endpoints
         {
             Assert.True(_authInfo.ApiInstance.IsUserAuthenticated);
 
-            var getFeedResult = await _authInfo.ApiInstance.GetLikeFeedAsync(2);
+            var getFeedResult = await _authInfo.ApiInstance.GetLikeFeedAsync(PaginationParameters.MaxPagesToLoad(5));
             var feed = getFeedResult.Value;
             var anyDuplicate = feed.GroupBy(x => x.Code).Any(g => g.Count() > 1);
 

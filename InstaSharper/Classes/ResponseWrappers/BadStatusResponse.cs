@@ -3,15 +3,12 @@ using Newtonsoft.Json;
 
 namespace InstaSharper.Classes.ResponseWrappers
 {
-    internal class BadStatusResponse : BaseStatusResponse
+    public class BadStatusResponse : BaseStatusResponse
     {
-        [JsonProperty("message")]
-        public string Message { get; set; }
+        [JsonProperty("message")] public string Message { get; set; }
 
-        [JsonProperty("error_type")]
-        public string ErrorType { get; set; }
+        [JsonProperty("error_type")] public string ErrorType { get; set; }
 
-        [JsonProperty("checkpoint_url")]
-        public string CheckPointUrl { get; set; }
+        [JsonProperty("checkpoint_url")] public string CheckPointUrl { get; set; }
     }
 }
